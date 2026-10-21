@@ -1,31 +1,28 @@
 # Budget Bro
 
-Budget Bro is my learning project for building foundations in the C# and TypeScript full stack ecosystem.
+Budget Bro is a learning project where I am building my foundations in C# and TypeScript through a budget tracker.
 
-I am starting with a simple C# console application and gradually working towards a web application that I can deploy. The focus is understanding each concept, practising it, and learning to build systems independently.
+I am starting with a console application and gradually working towards a full stack application that I can deploy. My goal is to understand how each part works and develop the skills to build systems independently.
 
-## Current Stage
+## Current Features
 
-The application currently runs in the console and tracks income, expenses, and the remaining balance during a single session.
+- Add income and expenses.
+- Track total income, total expenses, and remaining balance.
+- View a summary with amounts displayed in LKR to two decimal places.
+- Handle unsupported menu choices.
+- Reject blank and non-numeric amounts.
+- Reject zero and negative amounts.
+- Keep the menu running until the user selects Exit.
 
-### Completed Features
+Invalid amounts display an error and return the user to the main menu without changing the totals.
 
-- Repeating menu with options to add income, add expenses, view a summary, and exit.
-- Running totals for income and expenses.
-- Balance updates when income or expenses are added.
-- Summary showing total income, total expenses, and remaining balance.
-- Invalid menu choices handled through a `default` case.
+## Requirements
 
-### Current Limitations
-
-- Non-numeric amounts can cause the application to stop.
-- Zero and negative amounts are currently accepted.
-- Data is lost when the application closes.
-- Individual transactions, descriptions, and categories are not stored yet.
+- .NET SDK compatible with the target framework in `BudgetBasics.csproj`.
 
 ## How to Run
 
-Install the .NET SDK, then open a terminal in the repository root.
+From the repository root:
 
 ```powershell
 cd BudgetBasics
@@ -47,44 +44,68 @@ Choose an option:
 
 ### Day 1 — Setup and Console Output
 
-- Created the `BudgetBasics` console application.
-- Used `Console.WriteLine` to display messages.
-- Learned how to run the application with `dotnet run`.
+- Created the C# console application.
+- Practised displaying text using `Console.WriteLine`.
+- Ran the application using `dotnet run`.
 - Set up Git and connected the repository to GitHub.
 
-### Day 2 — Interactive Menu and Calculations
+### Day 2 — Menu and Calculations
 
-- Practised using `decimal` variables for monetary values.
-- Used `Console.ReadLine` to accept input.
+- Used `decimal` variables to store monetary values.
+- Read user input with `Console.ReadLine`.
 - Created a repeating menu using a `while` loop.
-- Used `switch`, `case`, and `default` to handle menu choices.
-- Updated income, expense, and balance totals.
+- Used `switch`, `case`, `default`, and `break`.
+- Calculated income, expense, and balance totals.
 - Used string interpolation to display values.
-- Explored the difference between `null`, an empty string, and the `??` operator.
-- Identified the difference between menu-choice validation and amount validation.
+- Explored nullable strings, empty strings, and the `??` operator.
 
-I have practised these concepts in code and will review the theory to strengthen my understanding.
+### Day 3 — Amount Validation
+
+- Observed a `FormatException` caused by invalid numeric input.
+- Replaced `Convert.ToDecimal` with `decimal.TryParse`.
+- Used the conversion result and `out` parameter.
+- Added nested conditions to accept only positive amounts.
+- Applied validation to both income and expenses.
+- Used `F2` formatting to display two decimal places.
+
+## Manual Testing
+
+The following checks were completed manually:
+
+| Test                    | Expected result                                   | Status |
+| ----------------------- | ------------------------------------------------- | ------ |
+| Unsupported menu choice | Display an invalid-option message                 | Passed |
+| Non-numeric amount      | Display an error without stopping the application | Passed |
+| Blank amount            | Reject without changing totals                    | Passed |
+| Zero amount             | Display a positive-amount requirement             | Passed |
+| Negative amount         | Reject without changing totals                    | Passed |
+| Valid income            | Increase income and balance                       | Passed |
+| Valid expense           | Increase expenses and decrease balance            | Passed |
+| Summary                 | Display the correct totals and balance            | Passed |
+
+## Current Limitations
+
+- Data is stored only while the application is running.
+- Individual transactions, descriptions, categories, and dates are not recorded.
+- Invalid amounts return to the main menu rather than prompting for an immediate retry.
+- Tests are manual; automated tests have not been added.
 
 ## Next Steps
 
-- Review loops, switches, variable scope, and decimal values.
-- Use `decimal.TryParse` to handle invalid numeric input.
-- Reject zero and negative amounts.
-- Allow the user to retry after entering an invalid amount.
+- Learn methods and extract menu display into a reusable method.
+- Add direct retries for invalid amounts.
+- Learn classes and collections to store individual transactions.
+- Save and load data using JSON files.
 
-## Longer-Term Learning Path
+## Longer-Term Goals
 
-1. Organise code into methods.
-2. Learn classes, objects, and collections.
-3. Store and display individual transactions.
-4. Save and load data using JSON files.
-5. Build an API with ASP.NET Core.
-6. Add database persistence.
-7. Learn TypeScript and build a frontend.
-8. Connect the frontend to the backend.
-9. Use Docker to run the application and its dependencies.
-10. Test and deploy the application.
+- Build an ASP.NET Core API.
+- Add database persistence.
+- Learn TypeScript and build a frontend.
+- Connect the frontend to the API.
+- Use Docker to run the application and its dependencies.
+- Add automated tests and deploy the application.
 
 ## Learning Approach
 
-I use documentation, tutorials, and AI assistance to explore concepts and examples. My goal is to explain the code I use, modify it independently, and practise rebuilding features without relying on a complete solution.
+I use documentation, tutorials, and AI assistance to explore concepts and examples. I practise by running the code, testing different inputs, explaining its behaviour, and making changes myself.
