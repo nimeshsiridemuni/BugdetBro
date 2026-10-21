@@ -1,5 +1,4 @@
 ﻿// Keep totals outside the loop so values persist between menu choices.
-decimal userBalance = 0.00m;
 decimal totalIncome = 0.00m;
 decimal totalExpenses = 0.00m;
 string menuChoice = "";
@@ -7,17 +6,9 @@ string menuChoice = "";
 // Repeat the menu until the user chooses "0".
 while (menuChoice != "0")
 {
-    Console.WriteLine();
-    Console.WriteLine("=== Budget Bro ===");
-    Console.WriteLine("1. Add Income");
-    Console.WriteLine("2. Add Expense");
-    Console.WriteLine("3. View Summary");
-    Console.WriteLine("0. Exit");
-
-    Console.Write("Choose an option: ");
+    DisplayMenu();
     menuChoice = Console.ReadLine() ?? "";
 
-    // Handle the selected menu option.
     switch (menuChoice)
     {
         case "1":
@@ -28,9 +19,7 @@ while (menuChoice != "0")
             {
                 if (addIncome > 0)
                 {
-                    userBalance = userBalance + addIncome;
                     totalIncome = totalIncome + addIncome;
-
                     Console.WriteLine("Income added.");
                 }
                 else
@@ -53,9 +42,7 @@ while (menuChoice != "0")
             {
                 if (addExpense > 0)
                 {
-                    userBalance = userBalance - addExpense;
                     totalExpenses = totalExpenses + addExpense;
-
                     Console.WriteLine("Expense added.");
                 }
                 else
@@ -71,10 +58,8 @@ while (menuChoice != "0")
             break;
 
         case "3":
-            Console.WriteLine("Your Summary");
-            Console.WriteLine($"Income: LKR {totalIncome:F2}");
-            Console.WriteLine($"Expenses: LKR {totalExpenses:F2}");
-            Console.WriteLine($"Final Balance: LKR {userBalance:F2}");
+            decimal balance = CalculateBalance(totalIncome, totalExpenses);
+            DisplaySummary(totalIncome, totalExpenses, balance);
             break;
 
         case "0":
@@ -82,8 +67,35 @@ while (menuChoice != "0")
             break;
 
         default:
-            // Handle unsupported menu choices.
             Console.WriteLine("Invalid option. Please choose 0, 1, 2, or 3.");
             break;
     }
+}
+
+// Display the menu without returning a value.
+void DisplayMenu()
+{
+    Console.WriteLine();
+    Console.WriteLine("=== Budget Bro ===");
+    Console.WriteLine("1. Add Income");
+    Console.WriteLine("2. Add Expense");
+    Console.WriteLine("3. View Summary");
+    Console.WriteLine("0. Exit");
+    Console.Write("Choose an option: ");
+}
+
+// Display the values passed into the function.
+void DisplaySummary(decimal income, decimal expenses, decimal balance)
+{
+    Console.WriteLine();
+    Console.WriteLine("Your Summary");
+    Console.WriteLine($"Income: LKR {income:F2}");
+    Console.WriteLine($"Expenses: LKR {expenses:F2}");
+    Console.WriteLine($"Final Balance: LKR {balance:F2}");
+}
+
+// Calculate the balance and return it to the caller.
+decimal CalculateBalance(decimal income, decimal expenses)
+{
+    return income - expenses;
 }

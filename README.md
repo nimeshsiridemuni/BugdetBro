@@ -68,6 +68,16 @@ Choose an option:
 - Applied validation to both income and expenses.
 - Used `F2` formatting to display two decimal places.
 
+### Part 2 — Functions
+
+- Extracted menu output into DisplayMenu().
+- Passed summary values into DisplaySummary().
+- Used CalculateBalance() to return income minus expenses.
+- Removed the separate running balance variable.
+- Practised the difference between returning and printing a value.
+
+Next: extract amount validation into ReadPositiveAmount() and add retries.
+
 ## Manual Testing
 
 The following checks were completed manually:
