@@ -1,4 +1,7 @@
-﻿// Keep totals outside the loop so values persist between menu choices.
+﻿
+using System;
+
+// Keep totals outside the loop so values persist between menu choices.
 decimal totalIncome = 0.00m;
 decimal totalExpenses = 0.00m;
 string menuChoice = "";
@@ -12,62 +15,44 @@ while (menuChoice != "0")
     switch (menuChoice)
     {
         case "1":
-            Console.Write("Add your income: ");
-            string incomeInput = Console.ReadLine() ?? "";
+        {
+            decimal addIncome = ValidateAmount("income");
 
-            if (decimal.TryParse(incomeInput, out decimal addIncome))
-            {
-                if (addIncome > 0)
-                {
-                    totalIncome = totalIncome + addIncome;
-                    Console.WriteLine("Income added.");
-                }
-                else
-                {
-                    Console.WriteLine("Amount must be greater than zero.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Please enter a valid number.");
-            }
+            totalIncome += addIncome;
 
+            Console.WriteLine("Income added.");
             break;
+        }
 
         case "2":
-            Console.Write("Add your expense: ");
-            string expenseInput = Console.ReadLine() ?? "";
+        {
+            decimal addExpense = ValidateAmount("expense");
 
-            if (decimal.TryParse(expenseInput, out decimal addExpense))
-            {
-                if (addExpense > 0)
-                {
-                    totalExpenses = totalExpenses + addExpense;
-                    Console.WriteLine("Expense added.");
-                }
-                else
-                {
-                    Console.WriteLine("Amount must be greater than zero.");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Please enter a valid number.");
-            }
+            totalExpenses += addExpense;
 
+            Console.WriteLine("Expense added.");
             break;
+        }
 
         case "3":
-            decimal balance = CalculateBalance(totalIncome, totalExpenses);
+        {
+            decimal balance = CalculateBalance(
+                totalIncome,
+                totalExpenses
+            );
+
             DisplaySummary(totalIncome, totalExpenses, balance);
             break;
+        }
 
         case "0":
             Console.WriteLine("Shutting down...");
             break;
 
         default:
-            Console.WriteLine("Invalid option. Please choose 0, 1, 2, or 3.");
+            Console.WriteLine(
+                "Invalid option. Please choose 0, 1, 2, or 3."
+            );
             break;
     }
 }
@@ -82,6 +67,27 @@ void DisplayMenu()
     Console.WriteLine("3. View Summary");
     Console.WriteLine("0. Exit");
     Console.Write("Choose an option: ");
+}
+
+// Validate an amount and return it when valid.
+decimal ValidateAmount(string transactionType)
+{
+    while (true)
+    {
+        Console.Write($"Add your {transactionType}: ");
+
+        string input = Console.ReadLine() ?? "";
+
+        if (decimal.TryParse(input, out decimal amount)
+            && amount > 0)
+        {
+            return amount;
+        }
+
+        Console.WriteLine(
+            "Invalid amount. Please enter a number greater than zero."
+        );
+    }
 }
 
 // Display the values passed into the function.

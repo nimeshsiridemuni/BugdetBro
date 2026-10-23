@@ -2,7 +2,7 @@
 
 Budget Bro is a learning project where I am building my foundations in C# and TypeScript through a budget tracker.
 
-I am starting with a console application and gradually working towards a full stack application that I can deploy. My goal is to understand how each part works and develop the skills to build systems independently.
+I am starting with a console application and gradually working towards a full-stack application that I can deploy. My goal is to understand how each part works and develop the skills to build systems independently.
 
 ## Current Features
 
@@ -12,9 +12,11 @@ I am starting with a console application and gradually working towards a full st
 - Handle unsupported menu choices.
 - Reject blank and non-numeric amounts.
 - Reject zero and negative amounts.
+- Retry invalid amount inputs until a valid positive amount is entered.
+- Reuse one validation method for both income and expenses.
 - Keep the menu running until the user selects Exit.
 
-Invalid amounts display an error and return the user to the main menu without changing the totals.
+Invalid amounts display an error and prompt the user to try again without changing the totals.
 
 ## Requirements
 
@@ -64,46 +66,58 @@ Choose an option:
 - Observed a `FormatException` caused by invalid numeric input.
 - Replaced `Convert.ToDecimal` with `decimal.TryParse`.
 - Used the conversion result and `out` parameter.
-- Added nested conditions to accept only positive amounts.
+- Added conditions to accept only positive amounts.
 - Applied validation to both income and expenses.
 - Used `F2` formatting to display two decimal places.
 
-### Part 2 — Functions
+### Part 2 — Methods and Code Reuse
 
-- Extracted menu output into DisplayMenu().
-- Passed summary values into DisplaySummary().
-- Used CalculateBalance() to return income minus expenses.
+- Extracted menu output into `DisplayMenu()`.
+- Passed summary values into `DisplaySummary()`.
+- Used `CalculateBalance()` to return income minus expenses.
 - Removed the separate running balance variable.
 - Practised the difference between returning and printing a value.
 
-Next: extract amount validation into ReadPositiveAmount() and add retries.
+### Lesson 5 — Reusable Amount Validation
+
+- Created `ValidateAmount(string transactionType)`.
+- Used a string parameter to customize income and expense prompts.
+- Combined `decimal.TryParse()` and a positive-amount check using `&&`.
+- Used `while (true)` to retry invalid inputs.
+- Used `return amount` to return a validated decimal to the calling case.
+- Removed duplicated validation logic from the income and expense cases.
+- Kept transaction totals unchanged until valid input is received.
+- Explored code reuse and the difference between reusable methods and object-oriented programming.
+
+**Key learning:** A reusable method can accept parameters, perform a task once, and return a value to different parts of the application.
 
 ## Manual Testing
 
-The following checks were completed manually:
+These are the manual tests to perform after implementing Lesson 5. Mark them as passed once verified.
 
-| Test                    | Expected result                                   | Status |
-| ----------------------- | ------------------------------------------------- | ------ |
-| Unsupported menu choice | Display an invalid-option message                 | Passed |
-| Non-numeric amount      | Display an error without stopping the application | Passed |
-| Blank amount            | Reject without changing totals                    | Passed |
-| Zero amount             | Display a positive-amount requirement             | Passed |
-| Negative amount         | Reject without changing totals                    | Passed |
-| Valid income            | Increase income and balance                       | Passed |
-| Valid expense           | Increase expenses and decrease balance            | Passed |
-| Summary                 | Display the correct totals and balance            | Passed |
+| Test                    | Expected result                        | Status |
+| ----------------------- | -------------------------------------- | ------ |
+| Unsupported menu choice | Display an invalid-option message      | Passed |
+| Non-numeric amount      | Display an error and prompt again      | Passed |
+| Blank amount            | Reject and prompt again                | Passed |
+| Zero amount             | Reject and prompt again                | Passed |
+| Negative amount         | Reject and prompt again                | Passed |
+| Valid income            | Increase total income                  | Passed |
+| Valid expense           | Increase total expenses                | Passed |
+| Summary                 | Display the correct totals and balance | Passed |
+| Exit                    | Terminate the menu loop                | Passed |
 
 ## Current Limitations
 
 - Data is stored only while the application is running.
 - Individual transactions, descriptions, categories, and dates are not recorded.
-- Invalid amounts return to the main menu rather than prompting for an immediate retry.
-- Tests are manual; automated tests have not been added.
+- Income and expenses are tracked as aggregate totals rather than individual transaction records.
+- Automated tests have not yet been added.
 
 ## Next Steps
 
-- Learn methods and extract menu display into a reusable method.
-- Add direct retries for invalid amounts.
+- Extract income and expense operations into their own methods.
+- Learn method parameters, return values, scope, and `static` in greater depth.
 - Learn classes and collections to store individual transactions.
 - Save and load data using JSON files.
 
